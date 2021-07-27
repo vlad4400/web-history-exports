@@ -1,27 +1,26 @@
 <div class="dashboard-container">
 
-  <form class="siderbar card">
+  <form [formGroup]="form" class="siderbar card" (ngSubmit)="filter()">
     <h2>Filter</h2>
     <div class="form-control">
-      <label for="lokal">Lokal:</label>
-      <select id="lokal">
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
+      <label for="local">Lokal:</label>
+      <select id="local" formControlName="local">
+        <option *ngFor="let local of listLocals; let idx = index" value="{{idx}}">{{ local }}</option>
       </select>
     </div>
     <div class="form-control">
       <label for="date-from">Od:</label>
-      <input id="date-from" type="date">
+      <input id="date-from" type="date" formControlName="dateFrom" [max]="dateMax">
     </div>
     <div class="form-control">
       <label for="date-to">Do:</label>
-      <input id="date-to" type="date">
+      <input id="date-to" type="date" formControlName="dateTo" [max]="dateMax">
     </div>
 
     <button
       type="submit"
       class="btn btn-primary"
+      [disabled]="form.invalid"
     >
       Zatwierdź
     </button>

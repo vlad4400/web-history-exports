@@ -23,14 +23,12 @@ export class AuthInterceptor implements HttpInterceptor {
     }
     return next.handle(req)
       .pipe(
-        tap(() => {
-          console.log('Interceptor');
-        }),
+        // tap(() => { console.log('Interceptor'); }), // for test
         catchError((error: HttpErrorResponse) => {
-          console.log('Interceptor error: ', error);
+          // console.log('Interceptor error: ', error); // for debugging
           if (error.status === 401) {
             this.auth.logout()
-            this.router.navigate(['./admin', 'login'], {
+            this.router.navigate(['/login'], {
               queryParams: {
                 authFailed: true
               }

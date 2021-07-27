@@ -46,16 +46,14 @@ export class RecordService {
   getAll(): Observable<Record[]> {
     return this.http.get(`${environment.fbDatabaseUrl}/records.json`)
       .pipe(map((response: {[key: string]: any}) => {
-          return Object
-            .keys(response)
-            .map(key => ({
-              ...response[key],
-              id: key,
-              date: new Date()
-            }))
+        return Object
+          .keys(response)
+          .map(key => ({
+            ...response[key],
+            id: key
+          }))
       }),
-      tap((e:any) => {
-        console.log(e)
-      }))
+      // tap((e:any) => { console.log(e) })
+      )
   }
 }

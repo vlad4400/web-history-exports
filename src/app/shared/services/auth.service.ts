@@ -80,7 +80,7 @@ export class AuthService {
   private handleError(httpResponse: HttpErrorResponse): any {
     const {message} = httpResponse.error.error
 
-    console.log(message);
+    // console.log(message);
     switch(message) {
       case 'EMAIL_NOT_FOUND':
         this.error$.next('Email nie znaleziony')
