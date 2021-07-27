@@ -1,1 +1,51 @@
-<p>login-page works!</p>
+<form class="card" [formGroup]="form" (ngSubmit)="submit()">
+  <h2>Logowanie</h2>
+
+  <div class="alert alert-danger" *ngIf="auth.error$ | async as error">
+    {{ error }}
+  </div>
+
+  <div class="alert alert-info" *ngIf="message">
+    {{ message }}
+  </div>
+
+  <div
+    class="form-control"
+    [ngClass]="{invalid: form.get('email')?.touched && form.get('email')?.invalid}"
+  >
+    <label for="email">E-mail:</label>
+    <input id="email" type="email" formControlName="email">
+    <div
+      *ngIf="form.get('email')?.touched && form.get('email')?.invalid"
+      class="validation"
+    >
+      <small *ngIf="form.get('email')?.errors?.required">Wprowadź e-mail</small>
+      <small *ngIf="form.get('email')?.errors?.email">E-mail niepoprawny</small>
+    </div>
+  </div>
+
+  <div
+    [ngClass]="{invalid: form.get('password')?.touched && form.get('password')?.invalid}"
+    class="form-control"
+  >
+    <label for="password">Hasło:</label>
+    <input id="password" type="password" formControlName="password">
+    <div
+      class="validation"
+      *ngIf="form.get('password')?.touched && form.get('password')?.invalid"
+    >
+    <small *ngIf="form.get('password')?.errors?.required">Wprowadź hasło</small>
+    <small *ngIf="form.get('password')?.errors?.minlength">
+      Hasło jest za krótkie. Hasło musi mieć co najmniej {{ form.get('password')?.errors?.minlength.requiredLength }} znaków
+    </small>
+    </div>
+  </div>
+
+  <button
+    type="submit"
+    class="btn btn-primary"
+    [disabled]="form.invalid || submitted"
+  >
+    Zaloguj sie
+  </button>
+</form>
