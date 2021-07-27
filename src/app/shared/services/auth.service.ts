@@ -10,6 +10,8 @@ import { FbAuthResponse, User } from '../interfaces';
 })
 export class AuthService {
 
+  userName!: string
+
   public error$: Subject<string> = new Subject<string>()
 
   get token(): string {
@@ -23,13 +25,31 @@ export class AuthService {
     }
   }
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {
+    let uName: string | null = localStorage.getItem('user-name')
+    console.log(uName);
+
+    if (uName) {
+      this.userName = uName
+    } else {
+      this.userName = 'anonim'
+    }
+  }
+
+  getUserName(): string {
+    return this.userName
+  }
 
   login(user: User): Observable<any> {
     return this.http.post(`https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.apiKey}`, user)
       .pipe(
         map((res: any) => (<FbAuthResponse>res)),
         tap(this.setToken),
+        tap(() => {
+          let uName = user.email.replace('@work.mail.com', '')
+          localStorage.setItem('user-name', uName);
+          this.userName = uName
+        }),
         // map((res: any) => (res as Observable<FbAuthResponse>)),
         catchError(this.handleError.bind(this))
       )
@@ -47,6 +67,8 @@ export class AuthService {
     if (response) {
 
       const expDate = new Date(new Date().getTime() + +response.expiresIn * 1000)
+
+      // localStorage.setItem('username')
 
       localStorage.setItem('fb-token', response.idToken)
       localStorage.setItem('fb-token-exp', expDate.toString())

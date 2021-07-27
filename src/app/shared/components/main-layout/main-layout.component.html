@@ -5,14 +5,14 @@
 
   <ul *ngIf="auth.isAuthenticated()">
     <li routerLinkActive="active">
-      <a [routerLink]="['/dashboard']">Dashboard</a>
+      <a [routerLink]="['/dashboard']">Wpisy</a>
     </li>
     <li routerLinkActive="active">
-      <a [routerLink]="['/create']">Create</a>
+      <a [routerLink]="['/create']">Dodaj</a>
     </li>
 
     <li>
-      <a (click)="logout($event)">Logout</a>
+      <a (click)="logout($event)">Wyloguj się</a>
     </li>
   </ul>
 </nav>

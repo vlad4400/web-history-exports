@@ -12,7 +12,8 @@ export interface FbCreateResponse {
 
 export interface Environment {
   production: boolean,
-  apiKey: string
+  apiKey: string,
+  fbDatabaseUrl: string
 }
 
 export interface FbAuthResponse {

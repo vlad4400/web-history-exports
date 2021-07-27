@@ -1,1 +1,41 @@
-<p>create-page works!</p>
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <h1>Utworzenie nowego wpisu</h1>
+
+  <div
+    class="form-control"
+    [ngClass]="{invalid: form.get('title')?.touched && form.get('title')?.invalid}"
+  >
+    <label for="title">Nazwa:</label>
+    <input id="title" type="text" formControlName="title">
+    <div
+      *ngIf="form.get('title')?.touched && form.get('title')?.invalid"
+      class="validation"
+    >
+      <small *ngIf="form.get('title')?.errors?.required">Wpisz nazwę</small>
+    </div>
+  </div>
+
+  <div
+    class="form-control"
+    [ngClass]="{invalid: form.get('local')?.touched && form.get('local')?.invalid}"
+  >
+    <label for="local">Lokal:</label>
+    <select id="local" formControlName="local">
+      <option *ngFor="let local of listLocals; let idx = index" value="{{idx}}">{{ local }}</option>
+    </select>
+    <div
+      *ngIf="form.get('local')?.touched && form.get('local')?.invalid"
+      class="validation"
+    >
+      <small *ngIf="form.get('local')?.errors?.required">Wybierz lokal</small>
+    </div>
+
+  </div>
+
+  <button
+    type="submit"
+    class="btn btn-block btn-dark"
+    [disabled]="form.invalid"
+  >Stworzyć wpis</button>
+
+</form>
