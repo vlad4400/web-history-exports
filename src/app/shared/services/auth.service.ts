@@ -27,7 +27,6 @@ export class AuthService {
 
   constructor(private http: HttpClient) {
     let uName: string | null = localStorage.getItem('user-name')
-    console.log(uName);
 
     if (uName) {
       this.userName = uName

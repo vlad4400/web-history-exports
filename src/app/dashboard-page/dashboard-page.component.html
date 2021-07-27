@@ -37,13 +37,13 @@
       <th>Lokal</th>
     </thead>
     <tbody>
-      <tr>
-        <td>1</td>
-        <td>name</td>
-        <td>date</td>
-        <td>godzina</td>
-        <td>username</td>
-        <td>local</td>
+      <tr *ngFor="let record of records; let i = index">
+        <td>{{ i + 1 }}</td>
+        <td>{{ record.title }}</td>
+        <td>{{ record.date | date: 'YYYY-MM-dd'}}</td>
+        <td>{{ record.date | date: 'hh:mm'}}</td>
+        <td>{{ record.username }}</td>
+        <td>{{ listLocals[+record.local] }}</td>
       </tr>
     </tbody>
   </table>

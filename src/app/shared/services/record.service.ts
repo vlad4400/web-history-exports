@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { map, tap } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { FbCreateResponse } from '../interfaces';
 import { Record } from '../interfaces'
@@ -41,5 +41,21 @@ export class RecordService {
       'Local 9',
       'Local 10'
     ]
+  }
+
+  getAll(): Observable<Record[]> {
+    return this.http.get(`${environment.fbDatabaseUrl}/records.json`)
+      .pipe(map((response: {[key: string]: any}) => {
+          return Object
+            .keys(response)
+            .map(key => ({
+              ...response[key],
+              id: key,
+              date: new Date()
+            }))
+      }),
+      tap((e:any) => {
+        console.log(e)
+      }))
   }
 }
