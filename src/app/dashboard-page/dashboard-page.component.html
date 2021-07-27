@@ -10,11 +10,11 @@
     </div>
     <div class="form-control">
       <label for="date-from">Od:</label>
-      <input id="date-from" type="date" formControlName="dateFrom" [max]="dateMax">
+      <input id="date-from" type="date" formControlName="dateFrom" [max]="dateNow | date: 'YYYY-MM-dd'">
     </div>
     <div class="form-control">
       <label for="date-to">Do:</label>
-      <input id="date-to" type="date" formControlName="dateTo" [max]="dateMax">
+      <input id="date-to" type="date" formControlName="dateTo" [max]="dateNow | date: 'YYYY-MM-dd'">
     </div>
 
     <button
@@ -34,8 +34,9 @@
       <th>Godzina</th>
       <th>Użytkownik</th>
       <th>Lokal</th>
+      <th></th>
     </thead>
-    <tbody>
+    <tbody *ngIf="records.length; else loading">
       <tr *ngFor="let record of records; let i = index">
         <td>{{ i + 1 }}</td>
         <td>{{ record.title }}</td>
@@ -43,8 +44,16 @@
         <td>{{ record.date | date: 'hh:mm'}}</td>
         <td>{{ record.username }}</td>
         <td>{{ listLocals[+record.local] }}</td>
+        <td class="btn-space">
+          <a class="display-block text-dark">Edytować</a>
+          <a class="display-block" (click)="remove(record.id)">Usunąć</a>
+        </td>
       </tr>
     </tbody>
   </table>
+
+  <ng-template #loading>
+    <p class="text-center">Ładowanie...</p>
+  </ng-template>
 
 </div>

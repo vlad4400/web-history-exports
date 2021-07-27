@@ -10,4 +10,14 @@
       margin-top: 20px;
     }
   }
+  table {
+    .btn-space {
+      display: flex;
+      flex-direction: column;
+      font-size: 12px;
+      .display-block {
+        display: block;
+      }
+    }
+  }
 }

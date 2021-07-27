@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Subscription } from 'rxjs';
@@ -7,7 +8,8 @@ import { RecordService } from '../shared/services/record.service';
 @Component({
   selector: 'app-dashboard-page',
   templateUrl: './dashboard-page.component.html',
-  styleUrls: ['./dashboard-page.component.scss']
+  styleUrls: ['./dashboard-page.component.scss'],
+  providers: [DatePipe]
 })
 export class DashboardPageComponent implements OnInit, OnDestroy {
 
@@ -15,31 +17,44 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
 
   originRecords: Record[] = []
   records: Record[] = []
-  recordsSub!: Subscription
+  subGetAll!: Subscription
+  subRemove!: Subscription
   listLocals!: string[]
 
-  dateNow!: string
-  dateMin!: string
-  dateMax!: string
+  dateNow: Date = new Date()
+
+  dateNowStr!: string
+
 
   constructor(
-    private recordService: RecordService
+    private recordService: RecordService,
+    private datePipe: DatePipe
   ) { }
 
   ngOnInit(): void {
-    this.dateMax = this.dateNow = this.getCurrentDate();
+    this.dateNowStr = <string>this.datePipe.transform(this.dateNow, 'yyyy-MM-dd')
 
     this.listLocals =  this.recordService.getListLocals()
 
-    this.recordsSub = this.recordService.getAll().subscribe( posts => {
+    this.subGetAll = this.recordService.getAll().subscribe( posts => {
       this.records = this.originRecords = posts
     })
 
     this.form = new FormGroup({
       local: new FormControl((this.listLocals ? 0 : null), Validators.required),
-      dateFrom: new FormControl((this.dateNow ? this.dateNow : null), Validators.required),
-      dateTo: new FormControl((this.dateNow ? this.dateNow : null), Validators.required)
+      dateFrom: new FormControl((this.dateNowStr ? this.dateNowStr : null), Validators.required),
+      dateTo: new FormControl((this.dateNowStr ? this.dateNowStr : null), Validators.required)
     })
+  }
+
+  remove(id: string = ''): void {
+    if (id) {
+      this.subRemove = this.recordService.remove(id).subscribe( () => {
+        this.records = this.records.filter(record => record.id !== id)
+      })
+    } else {
+      console.log('Błąd usuwania wpisu. "Id" nie istnieje');
+    }
   }
 
   filter() {
@@ -53,18 +68,9 @@ export class DashboardPageComponent implements OnInit, OnDestroy {
     this.records = this.records.filter(record => new Date(record.date) < new Date(endDate))
   }
 
-  getCurrentDate() {
-    const today = new Date()
-    const year = today.getFullYear()
-    const months = today.getMonth()
-    const day = today.getDate()
-
-    return `${year}-${(months < 9) ? '0' : ''}${months+1}-${(day < 10) ? '0' : ''}${day}`
-  }
-
   ngOnDestroy(): void {
-    if (this.recordsSub) {
-      this.recordsSub.unsubscribe()
+    if (this.subGetAll) {
+      this.subGetAll.unsubscribe()
     }
   }
 

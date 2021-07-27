@@ -56,4 +56,8 @@ export class RecordService {
       // tap((e:any) => { console.log(e) })
       )
   }
+
+  remove(id: string): Observable<void> {
+    return this.http.delete<void>(`${environment.fbDatabaseUrl}/records/${id}.json`)
+  }
 }
