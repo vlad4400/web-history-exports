@@ -1,1 +1,51 @@
-<p>dashboard-page works!</p>
+<div class="dashboard-container">
+
+  <form class="siderbar card">
+    <h2>Filter</h2>
+    <div class="form-control">
+      <label for="lokal">Lokal:</label>
+      <select id="lokal" formControlName="lokal">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+      </select>
+    </div>
+    <div class="form-control">
+      <label for="date-from">Od:</label>
+      <input id="date-from" type="date" formControlName="email">
+    </div>
+    <div class="form-control">
+      <label for="date-to">Do:</label>
+      <input id="date-to" type="date" formControlName="email">
+    </div>
+
+    <button
+      type="submit"
+      class="btn btn-primary"
+    >
+      Zatwierdź
+    </button>
+  </form>
+
+  <table>
+    <thead>
+      <th>#</th>
+      <th>Nazwa</th>
+      <th>Data</th>
+      <th>Godzina</th>
+      <th>Użytkownik</th>
+      <th>Lokal</th>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td>name</td>
+        <td>date</td>
+        <td>godzina</td>
+        <td>username</td>
+        <td>local</td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
