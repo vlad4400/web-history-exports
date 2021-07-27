@@ -12,4 +12,8 @@ export class MainLayoutComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  logout(e: Event): void {
+
+  }
+
 }

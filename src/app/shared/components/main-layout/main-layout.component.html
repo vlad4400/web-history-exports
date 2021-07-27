@@ -1,1 +1,22 @@
-<p>main-layout works!</p>
+<nav class="navbar bg-primary">
+  <h1>
+    WebHistoryExports
+  </h1>
+
+  <ul>
+    <li routerLinkActive="active">
+      <a [routerLink]="['/dashboard']">Dashboard</a>
+    </li>
+    <li routerLinkActive="active">
+      <a [routerLink]="['/create']">Create</a>
+    </li>
+
+    <li>
+      <a (click)="logout($event)">Logout</a>
+    </li>
+  </ul>
+</nav>
+
+<div class="container">
+  <router-outlet></router-outlet>
+</div>
